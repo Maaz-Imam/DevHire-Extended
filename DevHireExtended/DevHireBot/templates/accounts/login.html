@@ -1,0 +1,37 @@
+{% extends 'DevHireBot/base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="d-flex flex-column justify-content-center align-items-center col-9 col-md-6 col-lg-5 border border-secondary-subtle rounded dd2 px-1 py-4 mx-auto my-5">
+        <div class="fs-1 mt-1 mb-4">Login</div>
+
+        <form action="{% url 'DevHireBot:login' %}" method="post" class="col-10">
+            {% csrf_token %}
+            <div class="input-d col-12 mb-4">
+                <label class="mb-1 fs-5" for="id_username">Username:</label>
+                <input type="text" class="px-2 my-1" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder="Locus Focus">
+            </div>
+            
+            <div class="input-d col-12 mb-4">
+                <label class="mb-1 fs-5" for="id_password">Password:</label>
+                <input type="password" class="px-2 my-1" name="password" autocomplete="current-password" required id="id_password" placeholder="abc123">
+            </div>
+            
+            {% if form.errors %}
+                <div class="alert alert-danger" style="font-size: 0.8em;" role="alert">
+                <p>Oops! There was an issue:</p>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }}: {{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+                </div>
+            {% endif %}
+
+            <input type="submit" class="btn2 col-12 px-4 py-2 mt-4 mb-2 rounded fs-5" value="Login">
+            <div class="mt-2" style="font-size: 0.9em;">New here? <a href="{% url 'DevHireBot:register' %}"><span class="mt-4 mb-3 link1">Create an account </span></a>and join us! 🌟</div>
+        </form>
+    </div>
+{% endblock body %}

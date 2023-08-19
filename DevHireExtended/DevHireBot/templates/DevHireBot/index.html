@@ -1,0 +1,38 @@
+{% extends 'DevHireBot/base.html' %}
+{% load static %}
+
+{% block body %}
+
+
+    <div class="container-fluid dd1 py-3 px-2 mt-5 mb-3">
+        
+        <div class="left-panel col-lg-5 col-12 p-3">
+
+            <div class="display-6 mb-5 px-2 fw-medium">Elevate Interview Success: Beyond Expectations 🚀</div>
+            <div class="fw-light fs-6 px-2">
+                Welcome to DevHire Extended, your gateway to interview excellence and career triumphs. 🌟 We're not just another platform; we're your personal interview transformation partner, ready to propel you to new heights of success.
+            </div>
+            <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+
+            <a href="#">
+                <button class="fw-light btn1 py-2 px-3 my-3">
+                    <span>Start your Interview </span>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/zmkotitn.json"
+                        trigger="hover"
+                        colors="primary:#fff"
+                        state="hover-2"
+                        target=".btn1"
+                        style="width:3em;height:2em;">
+                    </lord-icon>
+                </button>
+            </a>
+        </div>
+
+        <div class="right-panel col d-lg-block d-none">
+            <script type="module" src="https://unpkg.com/@splinetool/viewer@0.9.425/build/spline-viewer.js"></script>
+            <spline-viewer loading-anim url="https://prod.spline.design/c2iKbmIevkPn-rf1/scene.splinecode"></spline-viewer>
+        </div>
+        
+    </div>
+{% endblock body %}
