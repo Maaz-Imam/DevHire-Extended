@@ -1,4 +1,4 @@
-import constants
+import constantstemplate
 
 from langchain.prompts.chat import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from langchain.document_loaders import PyMuPDFLoader
@@ -9,10 +9,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 
 import json
-import textwrap
 import os
+import random
+import string
 
-os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
+os.environ["OPENAI_API_KEY"] = constantstemplate.OPENAI_API_KEY
 embeddings = OpenAIEmbeddings()
 
 
@@ -40,11 +41,11 @@ def get_response_from_query(db, query, k=5):
         You are a helpful assistant that can answer questions about candidates` resumes 
         based on the resume chunks: {docs}
         
-        Only use the factual information from the transcript to answer the question and not out of it.
+        Only use the factual information from the transcript to answer the question, do not use any information from outside the scope of the transcript.
         
-        If you feel like you don't have enough information to answer the question, just say "It isn't mention." and nothing else.
+        If you feel like you don't have enough information to answer the question, just say "It isn't mentioned." and nothing else.
         
-        Your answers should be to detailed.
+        Your answers should stick to detail.
         """
 
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
@@ -73,13 +74,13 @@ def make_json_from_resume(pdf_url):
     db = create_db_from_pdf(pdf_url)
     dict_queries = {
         "education": "What education does this candidate has, also mention GPA if there?",
-        "experience": "What experiences does this candidate has?",
-        "projects": "What projects does this candidate has?",
-        "languages": "What languages does this candidate know?",
+        "experience": "What experiences does this candidate have?",
+        "projects": "What projects has this candidate worked on?",
+        "languages": "What languages/tech stacks does this candidate know?",
         "interests": "Are there any interests does this candidate has?",
         "skills": "What technical skills  does this candidate has?",
-        "certifications": "What professional certifications does this candidate has to prove their skills?",
-        "awards": "What awards does this candidate has?",
+        "certifications": "What professional certifications does this candidate have to prove their skills?",
+        "awards": "What awards does this candidate have?",
     }
     dict_answers = {}
     for i in dict_queries:
@@ -88,9 +89,14 @@ def make_json_from_resume(pdf_url):
         dict_answers[i] = response
     # convert dict to json
     json_data = json.dumps(dict_answers)
+    random_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
+    file_path = f"C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\empty\\DevHire-Extended\\src\\output_{random_ID}_data.json"
+    # Write the data to a JSON file
+    with open(file_path, "w") as json_file:
+        json.dump(json_data, json_file, indent=4)
     return json_data
 
 
 if __name__ == "__main__":
-    url = "E:/SecondSummer/DevHireExt/DevHire-Extended/AshadAbdullah_resume.pdf"
+    url = "C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\DResume.pdf"
     print(make_json_from_resume(url))
