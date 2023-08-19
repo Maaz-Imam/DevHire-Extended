@@ -1,28 +1,52 @@
-import constantstemplate
+import constants
 
 from langchain.prompts.chat import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
-from langchain.document_loaders import PyMuPDFLoader
+
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 
+from langchain.document_loaders import PyMuPDFLoader
+from langchain.document_loaders import Docx2txtLoader
+from langchain.document_loaders import TextLoader
+
 import json
+import textwrap
 import os
 import random
 import string
 
-os.environ["OPENAI_API_KEY"] = constantstemplate.OPENAI_API_KEY
+os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 embeddings = OpenAIEmbeddings()
 
 
-def create_db_from_pdf(pdf_url):
-    loader = PyMuPDFLoader(pdf_url)
-    data = loader.load()
+def resume_loader(file):
+    documents = []
+    if file.endswith('.pdf'):
+        pdf_path = './resumes/' + file
+        loader = PyMuPDFLoader(pdf_path)
+        documents.extend(loader.load())
+    elif file.endswith('.docx') or file.endswith('.doc'):
+        doc_path = './resumes/' + file
+        loader = Docx2txtLoader(doc_path)
+        documents.extend(loader.load())
+    elif file.endswith('.txt'):
+        text_path = './resumes/' + file
+        loader = TextLoader(text_path)
+        documents.extend(loader.load())
+    return documents
 
+
+
+def create_db_from_pdf(pdf_url):
+    data = resume_loader(pdf_url)
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=200, chunk_overlap=0)
+        chunk_size=200, 
+        chunk_overlap=0
+    )
+    print(len(data))
     docs = text_splitter.split_documents(data)
 
     db = FAISS.from_documents(docs, embeddings)
@@ -34,25 +58,29 @@ def get_response_from_query(db, query, k=5):
     docs = db.similarity_search(query, k=k)
     docs_page_content = " ".join([d.page_content for d in docs])
 
-    chat = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.2)
+    chat = ChatOpenAI(
+        model_name="gpt-3.5-turbo", 
+        temperature=0.2
+    )
 
     # Template to use for the system message prompt
     template = """
         You are a helpful assistant that can answer questions about candidates` resumes 
         based on the resume chunks: {docs}
         
-        Only use the factual information from the transcript to answer the question, do not use any information from outside the scope of the transcript.
+        Only use the factual information from the transcript to answer the question and not out of it.
         
-        If you feel like you don't have enough information to answer the question, just say "It isn't mentioned." and nothing else.
+        If you feel like you don't have enough information to answer the question, just say "It isn't mention." and nothing else.
         
-        Your answers should stick to detail.
+        Your answers should be to detailed.
         """
 
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
 
     human_template = "Answer the following question:\n {question}"
     human_message_prompt = HumanMessagePromptTemplate.from_template(
-        human_template)
+        human_template
+    )
 
     chat_prompt = ChatPromptTemplate.from_messages(
         [system_message_prompt, human_message_prompt]
@@ -63,40 +91,49 @@ def get_response_from_query(db, query, k=5):
         prompt=chat_prompt
     )
 
-    response = chain.run(question=query, docs=docs_page_content)
+    response = chain.run(
+        question=query, 
+        docs=docs_page_content
+    )
     response = response.replace("\n", "")
     return response, docs
 
 
 
 
-def make_json_from_resume(pdf_url):
+def make_json_from_resume(pdf_url, print=True):
     db = create_db_from_pdf(pdf_url)
     dict_queries = {
         "education": "What education does this candidate has, also mention GPA if there?",
-        "experience": "What experiences does this candidate have?",
-        "projects": "What projects has this candidate worked on?",
-        "languages": "What languages/tech stacks does this candidate know?",
+        "experience": "What experiences does this candidate has?",
+        "projects": "What projects does this candidate has?",
+        "languages": "What languages does this candidate know?",
         "interests": "Are there any interests does this candidate has?",
         "skills": "What technical skills  does this candidate has?",
-        "certifications": "What professional certifications does this candidate have to prove their skills?",
-        "awards": "What awards does this candidate have?",
+        "certifications": "What professional certifications does this candidate has to prove their skills?",
+        "awards": "What awards does this candidate has?",
     }
     dict_answers = {}
     for i in dict_queries:
         response, _ = get_response_from_query(db, dict_queries[i])
+        # @Dinesh's work to make it prettier :,)
         print(f" ------------------- Analyzed {i} -------------------")
         dict_answers[i] = response
-    # convert dict to json
-    json_data = json.dumps(dict_answers)
+        
     random_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
-    file_path = f"C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\empty\\DevHire-Extended\\src\\output_{random_ID}_data.json"
-    # Write the data to a JSON file
+    file_path = f"dumps/{random_ID}_data.json"
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    # convert dict to json
+    json_data = json.dumps(dict_answers, indent=4)
     with open(file_path, "w") as json_file:
-        json.dump(json_data, json_file, indent=4)
+        json_file.write(json_data)
+    if print:
+        print(json_data)
     return json_data
 
-
 if __name__ == "__main__":
-    url = "C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\DResume.pdf"
-    print(make_json_from_resume(url))
+    url = "AshadAbdullah_resume.docx"
+    make_json_from_resume(url, print=False)
+
+
