@@ -2,6 +2,9 @@
 *.pyc
 __pycache__/
 
+# secret files for keys
+constants.py
+
 # Distribution / packaging
 *.egg-info/
 dist/
