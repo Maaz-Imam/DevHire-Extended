@@ -1,0 +1,10 @@
+{
+    "education": "The candidate has a Bachelor of Science in Computer Science. The GPA mentioned is 3.86/4.0.",
+    "experience": "Based on the resume chunk provided, the candidate has experience in co-leading the development of an interview Chabot. This experience involved helping fresh graduates and interns with their interview preparations.",
+    "projects": "The candidate has worked on several projects, including:- House Price Prediction in streamlit- Titanic Survivor Prediction- Email Spam Detection- Amazer: The maze game- The Space-war game- Sierpinski Triangle- Development of an interview Chabot for fresh graduates and interns",
+    "languages": "Based on the resume chunk provided, the candidate knows the following languages: Python, C/C++, JavaScript, HTML, CSS, shell, and assembly.",
+    "interests": "It isn't mentioned in the resume chunk provided.",
+    "skills": "The candidate has technical skills in natural language processing (NLP), machine learning, supervised and unsupervised learning algorithms, neural networks, clustering analysis, deep learning, TensorFlow, computer vision, time series prediction and analysis, convolutional neural networks (CNNs), deep neural networks (DNNs), and long short-term memory (LSTMs).",
+    "certifications": "It isn't mentioned.",
+    "awards": "It isn't mentioned."
+}
