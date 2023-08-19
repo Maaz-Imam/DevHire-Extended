@@ -67,7 +67,6 @@ def get_response_from_query(db, query, k=5):
     return response, docs
 
 
-# Example usage:
 
 
 def make_json_from_resume(pdf_url):

@@ -1,16 +1,60 @@
-# DevHire-Extended
-The extended version of the famous interview bot DevHire.
+# DevHire-Extended Python Project Setup Guide (Windows)
 
-### Getting Started with DevHireExtended
-#### Download the Project
-First, make sure you have the DevHireExtended project files on your computer.
-#### Open a Terminal 
-To begin the installation process, open a terminal window. If you're not sure how to do this, simply search for "Terminal" on your computer's search bar.
+Welcome to the DevHire-Extended Python project! This guide will walk you through the process of setting up the project on a Windows machine.
 
-#### Navigate to Project Directory
-Using the terminal, navigate to the directory where you've stored the DevHireExtended project files. You can do this by using the `cd` command followed by the path to the project folder. 
-<br>For example: `cd path/to/DevHireExtended`
+## Clone the Repository
 
-#### Install Dependencies
-Great! Now that you're in the project directory, it's time to install the required dependencies. In the terminal, type the following command and press <br>Enter:
-`pip install -r requirements.txt`
+1. Fork this repository
+2. Open Command Prompt or Git Bash.
+3. Navigate to the directory where you want to clone the project.
+4. Run the following command to clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/DevHire-Extended.git
+   ```
+
+   Replace `your-username` with your GitHub username.
+
+## Create a Virtual Environment
+
+1. Navigate to the project directory using Command Prompt or Git Bash:
+
+   ```bash
+   cd DevHire-Extended
+   ```
+
+2. Create a virtual environment:
+
+   ```bash
+   python -m venv venv
+   ```
+
+3. Activate the virtual environment:
+
+   - Command Prompt:
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - Git Bash:
+
+     ```bash
+     source venv/Scripts/activate
+     ```
+
+## Install Dependencies
+
+1. With the virtual environment active, install project dependencies using pip:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Setup configuration
+
+1. copy the file src/constants-templates.py using:
+    ```bash
+       cp src/constants-templates.py src/constants.py 
+    ```
+2. Setup your OPENAI key (or any other keys) in that file and access it in production
