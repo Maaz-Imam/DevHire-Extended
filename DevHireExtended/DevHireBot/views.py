@@ -31,3 +31,6 @@ def register(request):
                 request, "accounts/register.html", {"form": SignUpForm()}
             )
 
+
+def get_resume(request):
+    return render(request, "DevhireBot/data.html")

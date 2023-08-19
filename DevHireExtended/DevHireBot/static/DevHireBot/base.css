@@ -15,17 +15,21 @@ body {
 }
 
 .navbar-brand,
-.nav-link:hover, .nav-link:focus, .nav-link:active {
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active {
     color: white !important;
 }
 
 .nav-link {
     color: lightgray;
 }
-.navbar-toggler{
+
+.navbar-toggler {
     color: #692ED0;
 }
-.navbar-toggler i{
+
+.navbar-toggler i {
     color: white;
     font-size: 1.5em;
 }
@@ -95,6 +99,7 @@ a:hover {
 
 .right-panel {
     height: 25em;
+    position: relative;
 }
 
 .btn1 {
@@ -109,34 +114,83 @@ a:hover {
     align-items: center;
     transition: background-color 0.2s ease-in-out;
 }
-.btn2
-{
+
+.btn2 {
     background-color: #692ED0;
     border: none;
     outline: none;
     color: white;
 }
-.btn1:hover, .btn2:hover {
+
+.btn1:hover,
+.btn2:hover {
     background-color: #692ED0;
 }
 
-.btn1:active, .btn2:active {
+.btn1:active,
+.btn2:active {
     background-color: #692ed0b0;
 }
-.link1
-{
+
+.link1 {
     font-weight: 500;
     text-decoration: underline;
-    text-underline-offset: 0.375em!important;
+    text-underline-offset: 0.375em !important;
     text-decoration-color: #692ED0;
 }
 
-.input-d
-{
+.input-d {
     /* border: 1px solid white; */
     display: flex;
     flex-direction: column;
 }
+
 .input-d input {
     height: 2.5rem;
+}
+
+.hidelogo {
+    position: absolute;
+    width: 10rem;
+    background-color: #121212;
+    height: 4rem;
+    bottom: 0px;
+    right: 0;
+    z-index: 100;
+}
+
+table {
+    --bs-table-color: white !important;
+    --bs-table-bg: transparent !important;
+}
+
+.UploadResume {
+    display: flex;
+    width: 15rem;
+    background-color: transparent;
+    color: white;
+    border: 2px solid #692ED0;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 3.5rem;
+}
+
+.UploadResume:hover {
+    background-color: #692ED0;
+}
+
+/* Hide the input element visually */
+.UploadResume input[type="file"] {
+    display: none;
+}
+
+.list-group {
+    --bs-list-group-color: white;
+    --bs-list-group-bg: transparent;
+    --bs-list-group-border-color: transparent;
+}
+.list-group li {
+    margin: 10px 0;
 }

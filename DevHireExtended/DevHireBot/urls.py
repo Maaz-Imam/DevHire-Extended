@@ -4,10 +4,14 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .customDecorators import anonymous_required
 
-
 app_name = "DevHireBot"
+
 urlpatterns = [
     path("", views.index, name="index"),
+    
+    # Interview related views
+    path("get_resume/", views.get_resume, name='get_resume'),
+    
     # Authentications
     path(
         "accounts/login/",
