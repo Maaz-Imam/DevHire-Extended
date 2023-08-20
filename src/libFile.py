@@ -5,6 +5,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
+from langchain.callbacks import get_openai_callback
 
 from langchain.document_loaders import PyMuPDFLoader
 from langchain.document_loaders import Docx2txtLoader

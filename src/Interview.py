@@ -1,61 +1,71 @@
-from langchain import OpenAI
-from langchain.chains import ConversationChain
-from langchain.callbacks import get_openai_callback
-from langchain.chains.conversation.memory import ConversationSummaryBufferMemory
-
-import json
-import os
+from libFile import *
 import constants
 
 os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 
 
-with open("dumps\\3bFG8pz7sv_data.json","r") as json_file:
+with open("C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\empty\\DevHire-Extended\\dumps\\3bFG8pz7sv_data.json","r") as json_file:
     fileData = json.load(json_file)
+    # fileData = str(fileData)
 
-# Template to use for the system message prompt
-template = f"""
-                You are DevHire, an interviewer conducting a candidate's interview.
-                Here is the candidate's data:
-                Education: {fileData["education"]}
-                Experience: {fileData["experience"]}
-                Projects: {fileData["projects"]}
-                Languages/Tech Stack: {fileData["languages"]}
-                Interests: {fileData["interests"]}
-                Skills: {fileData["skills"]}
-                Certifications: {fileData["certifications"]}
-                Awards: {fileData["awards"]}
+def rre(fileData):
+    chat = ChatOpenAI(
+            model_name="gpt-3.5-turbo", 
+            temperature=0.2
+        )
 
-                Your task is to ask interview questions based solely on the provided data.
-                Your questions should explore the candidate's education, experience, projects, skills, and other details.
+    # Template to use for the system message prompt
+    template = """
+        You are an interviewer named DevHire and you task is to conduct a professional interview of a candidate.
+        You will be provided with the data of the candidate such as their experience, skills, education.
+        Candidate data: {fileData}
+        
+        Only use the factual information from the transcript to conduct the interview.
+        
+        Your questions should be to the point.
+        """
 
-                Remember, you are only allowed to ask questions related to the information provided above.
-            """
+    system_message_prompt = SystemMessagePromptTemplate.from_template(template)
 
-
-
-# first initialize the large language model
-llm = OpenAI(
-	temperature=0,
-	model_name="text-davinci-003"
-)
-
-conversation_sum_bufw = ConversationChain(
-    llm=llm, memory=ConversationSummaryBufferMemory(
-        llm=llm,
-        max_token_limit=1000
+    human_template = "My name is Maaz. Please start the interview asking questions only from my data provided to you."
+    human_message_prompt = HumanMessagePromptTemplate.from_template(
+        human_template
     )
-)
 
+    chat_prompt = ChatPromptTemplate.from_messages(
+        [system_message_prompt, human_message_prompt]
+    )
 
-def count_tokens(chain, query):
+    chain = LLMChain(
+        llm=chat,
+        prompt=chat_prompt
+    )
+
     with get_openai_callback() as cb:
-        result = chain.run(query)
-        print(f'Spent a total of {cb.total_tokens} tokens')
-    return result
+        response = chain.run()
+        print('\n',cb,'\n')
 
+    print(response)
 
-print(count_tokens(conversation_sum_bufw,template))
+    while(1):
+        human_template = input("User: ")
+        human_message_prompt = HumanMessagePromptTemplate.from_template(
+            human_template
+        )
 
-while(True):
-    print(count_tokens(conversation_sum_bufw,input("User: ")))
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [system_message_prompt, human_message_prompt]
+        )
+
+        chain = LLMChain(
+            llm=chat,
+            prompt=chat_prompt
+        )
+
+        with get_openai_callback() as cb:
+            response = chain.run()
+            print('\n',cb,'\n')
+
+        print(response)
+
+rre(fileData)
