@@ -194,16 +194,26 @@ table {
     --bs-list-group-bg: transparent;
     --bs-list-group-border-color: transparent;
 }
+
 .list-group li {
     margin: 10px 0;
 }
 
-#Initiatebtn
-{
+#Initiatebtn {
     border: none;
     outline: none;
     background-color: transparent;
     /* border: 2px solid #692ED0; */
     color: white;
     font-weight: 600;
+}
+
+.or1 {
+    position: absolute;
+    color: white;
+    background-color: #121212;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5rem;
 }

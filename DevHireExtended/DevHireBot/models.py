@@ -19,3 +19,5 @@ class User(AbstractUser):
             validate_file_size
         ]
     )
+    
+   

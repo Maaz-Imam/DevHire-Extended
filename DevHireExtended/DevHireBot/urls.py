@@ -11,6 +11,7 @@ urlpatterns = [
     
     # Interview related views
     path("get_resume/", views.get_resume, name='get_resume'),
+    path("interview_pilot/", views.interview_pilot, name='interview_pilot'),
     
     # Authentications
     path(

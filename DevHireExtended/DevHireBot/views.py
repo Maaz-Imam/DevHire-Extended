@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    return render(request, "DevhireBot/index.html")
+    return render(request, "DevHireBot/index.html")
 
 
 def register(request):
@@ -39,10 +40,28 @@ def get_resume(request):
         form = ResumeForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES['resume']
-            request.user.resume = uploaded_file
-            request.user.save()
-            
-            return render(request, "DevhireBot/interview.html")
+            user = request.user
+
+            if user.resume:
+                # Delete the old resume file if it exists
+                user.resume.delete()
+
+            user.resume = uploaded_file
+            user.save()
+
+            return redirect('DevHireBot:interview_pilot')
         else:
             messages.error(request, form.errors)
-    return render(request, "DevhireBot/data.html", {'form': ResumeForm()})
+    
+    else:  # GET request
+        form_data = {'resume': request.user.resume} if request.user.resume else None
+        form = ResumeForm(initial=form_data)
+
+    return render(request, "DevHireBot/data.html", {'form': form, 'resume_name': os.path.basename(request.user.resume.name) if request.user.resume else None})
+
+@login_required
+def interview_pilot(request):
+    if not request.user.resume:
+        return redirect("DevHireBot:get_resume")
+        
+    return render(request, "DevHireBot/interview_pilot.html")
