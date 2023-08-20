@@ -6,94 +6,131 @@
         
     <div class="row justify-content-between">
 
-    <div class="left-panel col sticky-top py-3 px-4 my-3">
+        <div class="left-panel col py-3 px-4 my-3">
 
-        <div class="display-6 mb-5 px-2 fw-medium">Your Profile Details</div>
-        
-        <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <th scope="row">First Name</th>
-                <td>{{ user.first_name }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Last Name</th>
-                <td>{{ user.last_name }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            </tbody>
-          </table>
-
-        <div class="mt-5">🌟 Ready to shine? Share your journey with us by submitting your resume! 📄💼</div>
-        <form action="{% url 'DevHireBot:get_resume' %}" method="post">
-            {% csrf_token %}
-
-            <div class="UploadResume d-flex justify-content-center align-items-center mt-3">
-                <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-                <lord-icon
-                    src="https://cdn.lordicon.com/wfadduyp.json"
-                    trigger="morph"
-                    target=".UploadResume"
-                    colors="primary:#fff"
-                    state="hover-1"
-                    style="width:2.5rem;height:2.5rem; margin-right: 5px;">
-                </lord-icon>
+            <div class="display-6 mb-5 px-2 fw-medium">Your Profile Details</div>
             
-                <input type="file" name="resume" id="resume">
-                <span>Upload Resume</span>
-                <script>
-                    const customFileUpload = document.querySelector('.UploadResume');
-                    const fileInput = document.getElementById('resume');
-                
-                    customFileUpload.addEventListener('click', () => {
-                        fileInput.click(); // Trigger the file input's click event
-                    });
-                </script>
+            <table class="table table-borderless">
+                <tbody>
+                <tr>
+                    <th scope="row">First Name</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Last Name</th>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="mt-5">🌟 Ready to shine? Share your journey with us by submitting your resume! 📄💼</div>
+            <table class="table table-borderless col-6">
+                <tbody>
+                <tr>
+                    <th scope="row">Resume</th>
+                    <td id="resume_name">...(*￣０￣)ノ You got no resume bro!!!</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <form action="{% url 'DevHireBot:get_resume' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="row align-items-center mt-3">
+                <div class="UploadResume d-flex justify-content-center align-items-center">
+                    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/wfadduyp.json"
+                        trigger="morph"
+                        target=".UploadResume"
+                        colors="primary:#fff"
+                        state="hover-1"
+                        style="width:2.5rem;height:2.5rem; margin-right: 5px;">
+                    </lord-icon> 
+                    <input type="file" name="resume" autofocus='false' required id="id_resume">
+                    <span>Upload Resume</span> 
+
+                    <script>
+                        const customFileUpload = document.querySelector('.UploadResume');
+                        const fileInput = document.getElementById('id_resume');
+                        const fileNameSpan = document.getElementById('resume_name');
+                    
+                        customFileUpload.addEventListener('click', () => {
+                            fileInput.click(); // Trigger the file input's click event
+                        });
+                    
+                        fileInput.addEventListener('change', () => {
+                            if (fileInput.files.length > 0) {
+                                fileNameSpan.textContent = fileInput.files[0].name;
+                                customFileUpload.style.backgroundColor = '#692ED0'; // Keep button colored
+                            }
+                        });
+                    </script> 
+
+                    
+                </div>
+                <div class="d-flex align-items-center p-1 mx-3 initiate-d" style="border-bottom: 3px solid #692ED0; width: 13rem;">
+                    <input type="submit" id="Initiatebtn" class="rounded my-2" value="Initiate Interview">
+                    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/zmkotitn.json"
+                        trigger="hover"
+                        colors="primary:#fff"
+                        state="hover-1"
+                        target=".initiate-d"
+                        style="width:3em;height:2em">
+                    </lord-icon>
+                   
+                </div>
             </div>
-
-        </form>
-        <div class="alert alert-warning mt-4" role="alert">
-            A simple warning alert—check it out!
-          </div>
-    </div>
-
-    <div class="right-panel col-12 col-lg-6 d-flex flex-column align-items-center px-5 rounded" style="background-color: #181818; height: max-content;">
-        <img src="{% static 'DevHireBot/resume.png' %}" alt="envelope picture" style="width: 15rem;">
-        <div class="fs-5">Crafting an Impressive Resume: 🚀 Your Path to Professional Success</div>
-        <div style="font-size: 0.9rem;">
-        <ol class="list-group list-group-numbered">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                <div class="fw-bold">First Impressions Matter</div>
-                🌟  Your resume is an introduction to employers. Make it impactful to set the tone.
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                <div class="fw-bold">Showcasing Your Achievements</div>
-                🏆  Highlight past successes to demonstrate your value. Use numbers to quantify impact.
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                <div class="fw-bold">Clear and Concise Communication</div>
-                ✍️ Present your qualifications clearly. Hiring managers appreciate brevity.
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                <div class="fw-bold">Tailored for the Role</div>
-                🎯 Tailor your resume to each job. Highlight skills, experience, and keywords.
-                </div>
-            </li>
-            </ol>
+                
+            </form>
+            {% if messages %}
+            <div class="alert alert-warning mt-4" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-    </div>
 
-</div>
+        <div class="right-panel col-12 col-lg-6 d-flex flex-column align-items-center px-5 rounded" style="background-color: #181818; height: max-content;">
+            <img src="{% static 'DevHireBot/resume.png' %}" alt="envelope picture" style="width: 15rem;">
+            <div class="fs-5">Crafting an Impressive Resume: 🚀 Your Path to Professional Success</div>
+            <div style="font-size: 0.9rem;">
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                    <div class="fw-bold">First Impressions Matter</div>
+                    🌟  Your resume is an introduction to employers. Make it impactful to set the tone.
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                    <div class="fw-bold">Showcasing Your Achievements</div>
+                    🏆  Highlight past successes to demonstrate your value. Use numbers to quantify impact.
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                    <div class="fw-bold">Clear and Concise Communication</div>
+                    ✍️ Present your qualifications clearly. Hiring managers appreciate brevity.
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                    <div class="fw-bold">Tailored for the Role</div>
+                    🎯 Tailor your resume to each job. Highlight skills, experience, and keywords.
+                    </div>
+                </li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 {% endblock body %}

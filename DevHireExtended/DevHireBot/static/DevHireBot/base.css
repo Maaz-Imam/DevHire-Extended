@@ -183,7 +183,10 @@ table {
 
 /* Hide the input element visually */
 .UploadResume input[type="file"] {
-    display: none;
+    /* display: none; */
+    position: absolute;
+    opacity: 0;
+    width: 0;
 }
 
 .list-group {
@@ -193,4 +196,14 @@ table {
 }
 .list-group li {
     margin: 10px 0;
+}
+
+#Initiatebtn
+{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    /* border: 2px solid #692ED0; */
+    color: white;
+    font-weight: 600;
 }
