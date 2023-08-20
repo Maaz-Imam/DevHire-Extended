@@ -53,8 +53,8 @@ Welcome to the DevHire-Extended Python project! This guide will walk you through
 
 ## Setup configuration
 
-1. copy the file src/constants-templates.py using:
+1. copy the file src/constants-template.py using:
     ```bash
-       cp src/constants-templates.py src/constants.py 
+       cp src/constants-template.py src/constants.py 
     ```
 2. Setup your OPENAI key (or any other keys) in that file and access it in production
