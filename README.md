@@ -53,8 +53,15 @@ Welcome to the DevHire-Extended Python project! This guide will walk you through
 
 ## Setup configuration
 
-1. copy the file src/constants-template.py using:
+1. copy the file DevHireExtended/constants-template.py using:
     ```bash
-       cp src/constants-template.py src/constants.py 
+       cp DevHireExtended/constants-template.py DevHireExtended/constants.py 
     ```
 2. Setup your OPENAI key (or any other keys) in that file and access it in production
+
+## Run Django
+
+1. In the Root directory run the following command:
+   ```bash
+   python3 DevHireExtended/manage.py runserver
+   ```
