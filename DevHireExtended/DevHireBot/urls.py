@@ -12,6 +12,7 @@ urlpatterns = [
     # Interview related views
     path("get_resume/", views.get_resume, name='get_resume'),
     path("interview_pilot/", views.interview_pilot, name='interview_pilot'),
+    path("interview_bot/", views.interview_bot, name='interview_bot'),
     
     # Authentications
     path(
@@ -33,4 +34,7 @@ urlpatterns = [
         anonymous_required(views.register),
         name="register",
     ),
+
+    # API
+    path("initiate_resume_parsing", views.initiate_resume_parsing, name="initiate_resume_parsing")
 ]
