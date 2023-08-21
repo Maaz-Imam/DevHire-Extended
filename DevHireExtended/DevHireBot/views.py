@@ -1,11 +1,17 @@
 import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, ResumeForm
 from django.contrib.auth.decorators import login_required
+from .Interview import *
+# import sys
+# sys.path.append("..")
+# from src import main 
+from . import main
+from . import Interview
 
 # Create your views here.
 def index(request):
@@ -65,3 +71,19 @@ def interview_pilot(request):
         return redirect("DevHireBot:get_resume")
         
     return render(request, "DevHireBot/interview_pilot.html")
+
+@login_required
+def initiate_resume_parsing(request):
+    if not request.user.resume:
+        return JsonResponse({"result": False})
+    
+    fileName = main.make_json_from_resume("AshadAbdullah_resume_DsxBN9s.pdf", request.user.id)
+    # interview_go(fileName)
+    return JsonResponse({"result": True})
+
+@login_required
+def interview_bot(request):
+    if not request.user.resume:
+        return redirect("DevHireBot:get_resume")
+    
+    return render(request, "DevHireBot/interview_bot.html")
