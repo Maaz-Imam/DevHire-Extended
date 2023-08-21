@@ -78,7 +78,7 @@ def initiate_resume_parsing(request):
         return JsonResponse({"result": False})
     
     fileName = main.make_json_from_resume("AshadAbdullah_resume_DsxBN9s.pdf", request.user.id)
-    interview_go(fileName)
+    # interview_go(fileName)
     return JsonResponse({"result": True})
 
 @login_required

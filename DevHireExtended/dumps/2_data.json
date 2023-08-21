@@ -1,10 +1,10 @@
 {
-    "education": "The candidate has a Bachelor of Science in Computer Science. The GPA mentioned is 3.86/4.0.",
-    "experience": "This candidate has experience co-leading the development of an interview Chabot that helps fresh graduates and interns with their interview preparations. They were also a member of the Automation team for the Deputy DevDay (FAST Event) and worked on a project involving the authentication of users, conducting interviews, generating session reports, and emailing them.",
+    "education": "The candidate has a Bachelor of Science in Computer Science from FAST National University. The GPA mentioned is 3.86/4.0.",
+    "experience": "This candidate has experience in co-leading the development of an interview Chabot that helps fresh graduates and interns with their interview preparations. They also have experience as a member of the Automation team for the Deputy DevDay (FAST Event).",
     "projects": "The candidate has worked on the following projects:1. House Price Prediction in streamlit2. Titanic Survivor3. Co-led the development of an interview Chabot",
     "languages": "The candidate knows the following languages: Python, C/C++, Flask, JavaScript, HTML, CSS, shell, and assembly.",
-    "interests": "Based on the given resume chunks, there is no mention of the candidate's interests.",
-    "skills": "Based on the provided resume chunk, the candidate has the following technical skills:- Machine Learning: The candidate has a specialization in Machine Learning, which includes knowledge of supervised and unsupervised learning algorithms, neural networks, and clustering analysis.- Natural Language Processing (NLP): The candidate has implemented NLP techniques to improve a chatbot's ability to understand and respond to user queries effectively.Please note that this information is based solely on the provided resume chunk and may not encompass all of the candidate's technical skills.",
-    "certifications": "The candidate's resume mentions that they have professional certifications, but it does not provide specific details about the certifications they hold. Therefore, it is not mentioned which professional certifications the candidate has to prove their skills.",
+    "interests": "Based on the provided resume chunks, there is no mention of the candidate's interests.",
+    "skills": "Based on the provided resume chunk, the candidate has the following technical skills:- Machine Learning: The candidate has a specialization in Machine Learning, including knowledge of supervised and unsupervised learning algorithms, neural networks, and clustering analysis.- Natural Language Processing (NLP): The candidate has implemented NLP techniques to improve a chatbot's ability to understand and respond to user queries effectively.Please note that this information is based on the given resume chunk and may not include all of the candidate's technical skills.",
+    "certifications": "The candidate has not mentioned any professional certifications in their resume.",
     "awards": "It isn't mentioned."
 }
