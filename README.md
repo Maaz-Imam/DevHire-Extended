@@ -65,3 +65,7 @@ Welcome to the DevHire-Extended Python project! This guide will walk you through
    ```bash
    python3 DevHireExtended/manage.py runserver
    ```
+   OR
+   ```
+   py DevHireExtended/manage.py runserver
+   ```
