@@ -1,23 +1,24 @@
 from . import constants
 from .libFile import *
+# import constants
+# from libFile import *
 
 os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 embeddings = OpenAIEmbeddings()
 
-
 def resume_loader(file):
     documents = []
     if file.endswith('.pdf'):
-        pdf_path = './resumes/' + file
-        loader = PyMuPDFLoader(pdf_path)
+        # pdf_path = './resumes/' + file
+        loader = PyMuPDFLoader(file)
         documents.extend(loader.load())
     elif file.endswith('.docx') or file.endswith('.doc'):
-        doc_path = './resumes/' + file
-        loader = Docx2txtLoader(doc_path)
+        # doc_path = './resumes/' + file
+        loader = Docx2txtLoader(file)
         documents.extend(loader.load())
     elif file.endswith('.txt'):
-        text_path = './resumes/' + file
-        loader = TextLoader(text_path)
+        # text_path = './resumes/' + file
+        loader = TextLoader(file)
         documents.extend(loader.load())
     return documents
 
@@ -117,6 +118,6 @@ def make_json_from_resume(pdf_url, user_id, is_print=True):
     
     return file_path
 
-if __name__ == "__main__":
-    url = "AshadAbdullah_resume.docx"
-    make_json_from_resume(url, print=False)
+# if __name__ == "__main__":
+#     url = "AshadAbdullah_resume.pdf"
+#     make_json_from_resume(url, "5" ,is_print=False)

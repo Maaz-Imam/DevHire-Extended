@@ -36,5 +36,6 @@ urlpatterns = [
     ),
 
     # API
-    path("initiate_resume_parsing", views.initiate_resume_parsing, name="initiate_resume_parsing")
+    path("initiate_resume_parsing", views.initiate_resume_parsing, name="initiate_resume_parsing"),
+    path("interview_bot_starter/", views.interview_bot_starter, name="interview_bot_starter")
 ]
