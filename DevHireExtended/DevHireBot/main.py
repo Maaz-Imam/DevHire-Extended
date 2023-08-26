@@ -1,7 +1,5 @@
 from . import constants
 from .libFile import *
-# import constants
-# from libFile import *
 
 os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 embeddings = OpenAIEmbeddings()
@@ -104,20 +102,17 @@ def make_json_from_resume(pdf_url, user_id, is_print=True):
         print(f" ------------------- Analyzed {str(i)} -------------------")
         dict_answers[i] = response
         
-    # random_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
-    # file_path = f"dumps/{random_ID}_data.json"
-    file_path = f"dumps/{user_id}_data.json"
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = f"dumps\\{user_id}_data.json"
+    full_path = os.path.join(script_dir, file_path)
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
     
     # convert dict to json
     json_data = json.dumps(dict_answers, indent=4)
-    with open(file_path, "w") as json_file:
+    with open(full_path, "w") as json_file:
         json_file.write(json_data)
     if is_print:
         print(json_data)
     
-    return file_path
-
-# if __name__ == "__main__":
-#     url = "AshadAbdullah_resume.pdf"
-#     make_json_from_resume(url, "5" ,is_print=False)
+    return full_path

@@ -1,10 +1,13 @@
 from .libFile import *
 from . import constants
+import requests
 
 
 os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 
-def interview_go(fileData,request):
+def interview_go(request,fileData):
+
+    # fileData = request.session.get('resume_json_filename') # Retrieve the stored filename from the session
 
     data_keys = list(fileData.keys())
     data_values = list(fileData.values())
@@ -38,17 +41,19 @@ def interview_go(fileData,request):
 
     request.session['data_keys'] = data_keys
     request.session['data_values'] = data_values
-    request.session['llm'] = llm
-    request.session['memory'] = memory
+    # request.session['llm'] = llm
+    # request.session['memory'] = memory
 
-    return chat_llm_chain.predict(human_input="Please start the interview")
+    ans = chat_llm_chain.predict(human_input="Please start the interview")
+    ans = str(ans)
+    return ans
 
-def interview_process(hi,request):
+def interview_process(request,prompt_input):
 
     data_keys = request.session.get('data_keys', [])
     data_values = request.session.get('data_values', [])
-    llm = request.session.get('llm')
-    memory = request.session.get('memory')
+    # llm = request.session.get('llm')
+    # memory = request.session.get('memory')
 
     data_key = data_keys[0]
     data_value = data_values[0]
@@ -74,7 +79,9 @@ def interview_process(hi,request):
         memory=memory,
     )
 
-    return chat_llm_chain.predict(human_input=hi)
+    ans = str(chat_llm_chain.predict(human_input=prompt_input))
+    print(ans)
+    return ans
 
 
 

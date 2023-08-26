@@ -6,13 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, ResumeForm
 from django.contrib.auth.decorators import login_required
-# from .Interview import *
-# import sys
-# sys.path.append("..")
-# from src import main 
+
 from . import main
 from . import Interview
-import jsonify
 import json
 
 # Create your views here.
@@ -76,7 +72,8 @@ def interview_pilot(request):
 
 @login_required
 def initiate_resume_parsing(request):
-    return JsonResponse({"result": True})
+    # request.session['resume_json_filePath'] = "C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\empty\\DevHire-Extended\\DevHireExtended\\dumps\\2_data.json"  # Store the filename in the session
+    # return JsonResponse({"result": True})
     if not request.user.resume:
         return JsonResponse({"result": False})
     
@@ -87,8 +84,8 @@ def initiate_resume_parsing(request):
         print(f"The file at {pdf_full_path} exists.")
     else:
         print(f"The file at {pdf_full_path} does not exist.")
-    fileName = main.make_json_from_resume(pdf_full_path, request.user.id)
-    request.session['resume_json_filename'] = fileName  # Store the filename in the session
+    filePath = main.make_json_from_resume(pdf_full_path, request.user.id)
+    request.session['resume_json_filePath'] = filePath  # Store the filename in the session
     return JsonResponse({"result": True})
 
 @login_required
@@ -101,38 +98,31 @@ def interview_bot(request):
 @login_required
 def interview_bot_starter(request):
     if request.method == "POST" or request.method == "GET":
-        print("Here 1a")
         if not request.user.resume:
-            print("Here 2")
             return JsonResponse({"result": False})
-        
 
-        json_data = request.body
-        # Print or log the JSON data
-        print("JSON Body:", json_data)
-        
-        # You can also decode and print the JSON data as a string
-        json_string = json_data.decode('utf-8')
+        json_stuff = request.body
+        json_string = json_stuff.decode('utf-8')
         print("JSON String:", json_string)
 
         data = json.loads(request.body)  # Parse the JSON data sent in the request body
         prompt = data.get("prompt")
 
         if data.get("fname"):
-            print("Here 3a")
-            resume_json_filename = request.session.get('resume_json_filename') # Retrieve the stored filename from the session
+            resume_json_filePath = request.session.get('resume_json_filePath') # Retrieve the stored filename from the session
         
-            if resume_json_filename:
-                print("Here 4a")
-                return jsonify({"result":Interview.interview_go(resume_json_filename)})
+            if resume_json_filePath:
+                with open(resume_json_filePath, 'r') as json_file:
+                    json_data = json.load(json_file)
+                botResponse = Interview.interview_go(request,json_data)
+                print(type(botResponse),botResponse)
+                return JsonResponse({"result":botResponse})
             else:
-                print("Here 4b")
                 return JsonResponse({"result": False, "error": "Filename not found in session"})
         
         else:
-            print("Here 3b")
-            return jsonify({"ans":Interview.interview_process(prompt)})
+            botResponse = Interview.interview_process(request,prompt)
+            return JsonResponse({"ans":botResponse})
 
     else:
-        print("Here 1b")
         return JsonResponse({'error': 'Invalid request method'}, status=405)

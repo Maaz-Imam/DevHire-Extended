@@ -231,6 +231,8 @@
     let score = document.getElementById('score');
     let voice_arrow = document.getElementById('voiceArrow');
 
+    const csrfToken = "{{ csrf_token }}";
+
     text_area.style.display = 'none';
     input.className += ' blur';
     score.className += ' blur';
@@ -269,7 +271,6 @@
         stoppeer.addEventListener("click", stopper);
 
         const prompt = "Please start the interview";
-        const csrfToken = "{{ csrf_token }}";
 
         // fetch("/starter", {
         //     method: "POST",
@@ -297,8 +298,10 @@
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
+            return response.json();
         })
         .then(data => {
+            console.log("DATA",data);
             createEl('bot', data.result);
             text_area.scrollTop = text_area.scrollHeight;
         })
@@ -324,18 +327,18 @@
         alert("You can not Copy Paste any content."); 
     });
 
-    if (typeof document.hidden !== "undefined") {
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    }
+    // if (typeof document.hidden !== "undefined") {
+    // document.addEventListener("visibilitychange", handleVisibilityChange);
+    // }
 
-    function handleVisibilityChange() {
-    if (document.hidden) {
-        console.log("Tab is inactive");
-        alert("You have changed tabs which may be counted as cheating");
-    } else {
-        console.log("Tab is active");
-    }
-    }
+    // function handleVisibilityChange() {
+    // if (document.hidden) {
+    //     console.log("Tab is inactive");
+    //     alert("You have changed tabs which may be counted as cheating");
+    // } else {
+    //     console.log("Tab is active");
+    // }
+    // }
 
     // var tabIsFocused = true;
 
@@ -429,7 +432,8 @@
                 method: "POST",
                 body: JSON.stringify({"prompt": word}),
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken // Include the CSRF token as a header
                 },
             })
                 .then(response => response.json())
@@ -548,8 +552,9 @@
         // window.removeEventListener("blur", handleBlur);
         // window.removeEventListener("focus", handleFocus);
         // console.log("Event listeners removed");
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
-        console.log("Event listener removed");
+
+        // document.removeEventListener("visibilitychange", handleVisibilityChange);
+        // console.log("Event listener removed");
     }
     
     
