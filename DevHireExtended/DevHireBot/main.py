@@ -4,20 +4,19 @@ from .libFile import *
 os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 embeddings = OpenAIEmbeddings()
 
-
 def resume_loader(file):
     documents = []
     if file.endswith('.pdf'):
-        pdf_path = './resumes/' + file
-        loader = PyMuPDFLoader(pdf_path)
+        # pdf_path = './resumes/' + file
+        loader = PyMuPDFLoader(file)
         documents.extend(loader.load())
     elif file.endswith('.docx') or file.endswith('.doc'):
-        doc_path = './resumes/' + file
-        loader = Docx2txtLoader(doc_path)
+        # doc_path = './resumes/' + file
+        loader = Docx2txtLoader(file)
         documents.extend(loader.load())
     elif file.endswith('.txt'):
-        text_path = './resumes/' + file
-        loader = TextLoader(text_path)
+        # text_path = './resumes/' + file
+        loader = TextLoader(file)
         documents.extend(loader.load())
     return documents
 
@@ -103,20 +102,17 @@ def make_json_from_resume(pdf_url, user_id, is_print=True):
         print(f" ------------------- Analyzed {str(i)} -------------------")
         dict_answers[i] = response
         
-    # random_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
-    # file_path = f"dumps/{random_ID}_data.json"
-    file_path = f"dumps/{user_id}_data.json"
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = f"dumps\\{user_id}_data.json"
+    full_path = os.path.join(script_dir, file_path)
+    os.makedirs(os.path.dirname(full_path), exist_ok=True)
     
     # convert dict to json
     json_data = json.dumps(dict_answers, indent=4)
-    with open(file_path, "w") as json_file:
+    with open(full_path, "w") as json_file:
         json_file.write(json_data)
     if is_print:
         print(json_data)
     
-    return file_path
-
-if __name__ == "__main__":
-    url = "AshadAbdullah_resume.docx"
-    make_json_from_resume(url, print=False)
+    return full_path

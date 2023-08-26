@@ -22,12 +22,40 @@
         "Checking for awards and achievements...",
         ];
 
-        let stepIndex = 0;
 
-        setInterval(() => {
-        loadingText.textContent = extractionSteps[stepIndex];
-        stepIndex = (stepIndex + 1) % extractionSteps.length;
-        }, 2000); // Change content every 2 seconds
+        function typing(loadingLine) {
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < loadingLine.length) {
+              loadingText.textContent += loadingLine.charAt(i); //type each letter of the string one by one
+              i++;
+            } else {
+              clearInterval(interval);
+            }
+          }, 70);
+          return interval;
+        }
+
+        let stepIndex = 0;
+        let currentInterval;
+
+        function changeLineWithDelay() {
+          if (currentInterval) {
+            clearInterval(currentInterval);
+          }
+
+          loadingText.textContent = ""; //initialize the loading text
+          var loadingLine = extractionSteps[stepIndex];
+          currentInterval = typing(loadingLine);
+
+          const typingDuration = loadingLine.length * 50;
+          const nextChangeDelay = typingDuration + 800;
+
+          setTimeout(changeLineWithDelay, nextChangeDelay);
+          stepIndex = (stepIndex + 1) % extractionSteps.length;
+        }
+
+        changeLineWithDelay(); // Start the initial line change
       </script>
     </div>
   </div>
