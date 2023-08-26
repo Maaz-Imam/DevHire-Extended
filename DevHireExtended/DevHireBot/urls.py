@@ -2,6 +2,7 @@ from django.urls import path, include
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 from . import views
+from . import api_views
 from .customDecorators import anonymous_required
 
 app_name = "DevHireBot"
@@ -36,6 +37,6 @@ urlpatterns = [
     ),
 
     # API
-    path("initiate_resume_parsing", views.initiate_resume_parsing, name="initiate_resume_parsing"),
+    path("initiate_resume_parsing", api_views.initiate_resume_parsing, name="initiate_resume_parsing"),
     path("interview_bot_starter/", views.interview_bot_starter, name="interview_bot_starter")
 ]

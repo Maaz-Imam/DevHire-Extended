@@ -361,7 +361,7 @@ table {
     border: 3px solid #692ED0;
     padding: 15px 20px;
     border-radius: 10px;
-    background-color: #121212;
+    background-color: white;
     color: #692ED0;
 }
 
@@ -652,4 +652,13 @@ table {
 #textArea {
     height: 95%;
     overflow: auto;
+}
+
+#interview-pilot-d
+{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
 }

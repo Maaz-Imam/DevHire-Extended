@@ -71,24 +71,6 @@ def interview_pilot(request):
     return render(request, "DevHireBot/interview_pilot.html")
 
 @login_required
-def initiate_resume_parsing(request):
-    # request.session['resume_json_filePath'] = "C:\\Users\\maazi\\OneDrive\\Documents\\WORK\\CODE\\Prometheus\\empty\\DevHire-Extended\\DevHireExtended\\dumps\\2_data.json"  # Store the filename in the session
-    # return JsonResponse({"result": True})
-    if not request.user.resume:
-        return JsonResponse({"result": False})
-    
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    pdf_relative_path = "resumes\\AshadAbdullah_resume_DsxBN9s.pdf"
-    pdf_full_path = os.path.join(script_dir, pdf_relative_path)
-    if os.path.exists(pdf_full_path):
-        print(f"The file at {pdf_full_path} exists.")
-    else:
-        print(f"The file at {pdf_full_path} does not exist.")
-    filePath = main.make_json_from_resume(pdf_full_path, request.user.id)
-    request.session['resume_json_filePath'] = filePath  # Store the filename in the session
-    return JsonResponse({"result": True})
-
-@login_required
 def interview_bot(request):
     if not request.user.resume:
         return redirect("DevHireBot:get_resume")

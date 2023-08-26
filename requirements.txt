@@ -66,3 +66,4 @@ urllib3==2.0.4
 wasabi==0.10.1
 yarl==1.9.2
 django==4.2.4
+djangorestframework

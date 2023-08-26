@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block body %}
-  <div class="container-fluid dd1 flex-column py-3 px-2 mt-5 mb-3">
+  <div id="interview-pilot-d" class="container-xxl flex-column py-3 px-2 mb-3">
     <div class="d-flex align-items-center justify-content-center flex-column col-12 p-3 mt-5">
       <div class="d-flex justify-content-center">
         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-      <div id="loading_text" class="mt-4 fs-4">Extracting candidate's education details...</div>
+      <div id="loading_text" class="mt-4 fs-4" style="height: 2.6rem;">Extracting candidate's education details...</div>
       <script>
         const loadingText = document.getElementById("loading_text");
         const extractionSteps = [
@@ -64,22 +64,29 @@
         // Replace 'YOUR_ENDPOINT_URL' with the actual URL for the API endpoint
         let endpointUrl = '{% url "DevHireBot:initiate_resume_parsing" %}';
         
-        console.log("Start");
-        
-        fetch(endpointUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                let newPage = '{% url "DevHireBot:interview_bot" %}';
-                window.location.href = newPage;
-            })
-            .catch(error => {
-                console.error("Fetch error:", error);
-            });
+        console.log("Initiating Pilot");
+        fetch(endpointUrl, {
+          method: 'GET',
+        })
+        .then(response => {
+          if (response.status === 204) {
+            let myDiv = document.querySelector("#interview-pilot-d");
+            myDiv.innerHTML = `
+            <div class="p-2">
+              <div class='fs-4 text-center'>🤖 Uh-Oh, Something Went Wrong 🤖😟</div>
+              <div class='mt-2 lead text-center'>Oops! It looks like things didn't quite go as planned.  (。<span style="color: #692ED0">_</span>。)</div>
+            </div>
+              `;
+            return null;
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data) {
+            let newPage = '{% url "DevHireBot:interview_bot" %}';
+              window.location.href = newPage;
+          }
+        });
     });
   </script>
 {% endblock %}
